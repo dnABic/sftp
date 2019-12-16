@@ -1,0 +1,91 @@
+# Default values for sftp-server.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: dnabic/sftp
+  tag: v0.0.1
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  enabled: true
+  type: None
+  port: 22
+
+sftpConfig:
+  username: sftp
+  password: ""
+  encrypted: false
+  uid: "1001"
+  gid: "1001"
+  subfolder: data
+  hostKeys: {}
+    #secret: name-of-existing-secret
+    #keys:
+    #- ssh_host_rsa_key
+    #- ssh_host_ed25519_key
+  authorizedKeys:
+    dnabic: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCT0HChhr2ukqMmNZsX23Ra04A2yiMRovhXV5lyLp22p0c0GpStGHnLqXWTM1GO/XuAEDOWXMUW7ys2FkyAEWMDfHQFG+HXsQ4Wc6RkI3pdR8iBMsWz4Bk1/w7iE47ad7PMaYXB1ob9jeJHtgTb0BndBcGcosYRF6qx2rpm88yKtn7erseMpy+DAsLdnRjA23hPU60KJP15rhzkNTm5DHwQws/YuU8qSMyVwvsQDkAu/Y3OQZ44+orUKIA+EuVMX7HD2VqRSA2aoRYyCOxNu4kqf2faXcb3iirZLWG5Au9bMcGiZQprBl/ODX4QQswZG3amheNOvejFUrhfnZEHajuY7BfICaNP9FXKmYab2V5a2A0kIp/Oky0CBptLIo5N/hl/9IkZNfgCHYRYqNm7VOx2qtmvOV5fCauzhF/2/t7qSFotluh2Yfzlo6ffTgTKIn2k18iFj4anqCx8oapB7sTephSiBCm9liGd01Nla2I9mb1EstUzkOhgoaKu9lAmQzlMlNl3li7Aqd2aj1tB6NdYhaRZ+jGZtVbpr2QyfWaa0NVP9zCDrhKDwdbueUbQRcB0Xv5XS59H8QALz1b1WlHmvwSOZ2fd1sSihGIKtqWhyXYJnKzMtBVmQlJB2cPiu29Lj8StbfsHfGgvaBecqQtODOnJdggCxjdjz67m8aSxDQ== ababic@dnabic.com"
+
+debug:
+  enabled: false
+  image:
+    repository: quay.io/travelping/nettools
+    tag: v1.10.0
+    pullPolicy: IfNotPresent
+
+persistentVolume:
+  enabled: true
+  annotations: {}
+  accessModes:
+    - ReadWriteOnce
+  existingClaim: ""
+  size: 1Gi
+  # storageClass: "-"
+  subPath: ""
+
+vxlanController:
+  enabled: false
+  annotationKey: vxlan.openvnf.org/networks
+  metadataKey: vxlan.openvnf.org
+  image:
+    repository: openvnf/kube-vxlan-controller-agent
+    tag: 2.1.0
+    pullPolicy: IfNotPresent
+  network: "vxeth0"
+  ip: {}
+  route: {}
+  resources:
+    limits:
+      cpu: 50m
+      memory: 64Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+resources:
+  sftp:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  debug:
+    limits:
+      cpu: 100m
+      memory: 64Mi
+    requests:
+      cpu: 50m
+      memory: 32Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

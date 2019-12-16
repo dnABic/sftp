@@ -1,0 +1,6 @@
+apiVersion: v2
+appVersion: "v0.0.1"
+description: A helm chart for a SFTP server
+name: sftp-server
+version: 0.1.0
+type: application
